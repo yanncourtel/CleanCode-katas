@@ -8,7 +8,7 @@ namespace Trivia
     public class Game
     {
         private const int MaxPlayersNumber = 6;
-
+        private const int MaxPlacesNumber = 12;
         private readonly List<string> _players = new List<string>();
 
         private readonly int[] _places = new int[MaxPlayersNumber];
@@ -16,10 +16,10 @@ namespace Trivia
 
         private readonly bool[] _inPenaltyBox = new bool[MaxPlayersNumber];
 
-        private readonly LinkedList<string> _questionsType1 = new LinkedList<string>();
-        private readonly LinkedList<string> _questionsType2 = new LinkedList<string>();
-        private readonly LinkedList<string> _questionsType3 = new LinkedList<string>();
-        private readonly LinkedList<string> _questionsType4 = new LinkedList<string>();
+        private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
@@ -30,10 +30,10 @@ namespace Trivia
         {
             for (var i = 0; i < 50; i++)
             {
-                _questionsType1.AddLast("Pop Question " + i);
-                _questionsType2.AddLast(("Science Question " + i));
-                _questionsType3.AddLast(("Sports Question " + i));
-                _questionsType4.AddLast(CreateRockQuestion(i));
+                _popQuestions.AddLast("Pop Question " + i);
+                _scienceQuestions.AddLast(("Science Question " + i));
+                _sportsQuestions.AddLast(("Sports Question " + i));
+                _rockQuestions.AddLast(CreateRockQuestion(i));
             }
         }
 
@@ -73,9 +73,7 @@ namespace Trivia
                     _isGettingOutOfPenaltyBox = true;
                     //Write that user is getting out
                     Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
-                    // add roll to place
-                    _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                    if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                    MovePlayer(roll);
 
                     Console.WriteLine(_players[_currentPlayer]
                                       + "'s new location is "
@@ -91,8 +89,7 @@ namespace Trivia
             }
             else
             {
-                _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                MovePlayer(roll);
 
                 Console.WriteLine(_players[_currentPlayer]
                                   + "'s new location is "
@@ -101,7 +98,7 @@ namespace Trivia
                 AskQuestion();
             }
         }
-        
+
         /// <summary>
         /// To call when the answer is right
         /// </summary>
@@ -119,10 +116,10 @@ namespace Trivia
                                       + _purses[_currentPlayer]
                                       + " Gold Coins.");
 
-                    var winner = !(_purses[_currentPlayer] == 6);
-                   NextPlayer();
+                    var isAWinner = _purses[_currentPlayer] == 6;
+                    NextPlayer();
 
-                    return winner;
+                    return isAWinner;
                 }
                 else
                 {
@@ -139,14 +136,13 @@ namespace Trivia
                                   + _purses[_currentPlayer]
                                   + " Gold Coins.");
 
-                var winner = !(_purses[_currentPlayer] == 6);
+                var isAWinner = _purses[_currentPlayer] == 6;
                 NextPlayer();
 
-                return winner;
+                return isAWinner;
             }
         }
 
-        
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
@@ -154,7 +150,7 @@ namespace Trivia
             _inPenaltyBox[_currentPlayer] = true;
 
             NextPlayer();
-            return true;
+            return false;
         }
 
         private void NextPlayer()
@@ -167,26 +163,26 @@ namespace Trivia
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_questionsType1.First());
-                _questionsType1.RemoveFirst();
+                Console.WriteLine(_popQuestions.First());
+                _popQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(_questionsType2.First());
-                _questionsType2.RemoveFirst();
+                Console.WriteLine(_scienceQuestions.First());
+                _scienceQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_questionsType3.First());
-                _questionsType3.RemoveFirst();
+                Console.WriteLine(_sportsQuestions.First());
+                _sportsQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_questionsType4.First());
-                _questionsType4.RemoveFirst();
+                Console.WriteLine(_rockQuestions.First());
+                _rockQuestions.RemoveFirst();
             }
         }
 
@@ -208,6 +204,15 @@ namespace Trivia
                     return "Sports";
                 default:
                     return "Rock";
+            }
+        }
+
+        private void MovePlayer(int roll)
+        {
+            _places[_currentPlayer] = _places[_currentPlayer] + roll;
+            if (_places[_currentPlayer] >= MaxPlacesNumber)
+            {
+                _places[_currentPlayer] = _places[_currentPlayer] - MaxPlacesNumber;
             }
         }
     }
