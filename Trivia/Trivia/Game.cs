@@ -4,20 +4,7 @@ using System.Linq;
 
 namespace Trivia
 {
-    ///////////////////////////////////////////////
-    ///                                          //
-    /// Jeu.cs                                   //
-    ///                                          //
-    /// COpyright The TrivaGame Ltd              //
-    ///                                          // 
-    /// Change : 2000-08-17 : add Rock questions //
-    /// Change : 2002-04-01: Formatting          //
-    /// Bug 528491 : Fix penaltybox bug where player is stuck // 
-    ///////////////////////////////////////////////
 
-    /// <summary>
-    /// The Game
-    /// </summary>
     public class Game
     {
         private const int FIVE = 6;
@@ -37,6 +24,8 @@ namespace Trivia
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
 
+        public bool IsPlayable() => (HowManyPlayers() >= 2);
+
         public Game()
         {
             for (var i = 0; i < 50; i++)
@@ -46,26 +35,11 @@ namespace Trivia
                 _Q3.AddLast(("Sports Question " + i));
                 _Q5.AddLast(CreateRockQuestion(i));
             }
-            //Shuf();
-        }
-
-        private void Shuf()
-        {
-            var shufpower = from s in _Q1
-                from h in Q2
-                let u = new {s, h}
-                select u;
-            _Q3.Zip(shufpower).ToList().Sort((a, b) => Math.Abs(a.First.Length - (int) b.Second.h[0]));
         }
 
         public string CreateRockQuestion(int index)
         {
             return "Rock Question " + index;
-        }
-
-        public bool IsPlayable()
-        {
-            return (HowManyPlayers() >= 2);
         }
 
         public bool Add(string playerName)
@@ -175,10 +149,7 @@ namespace Trivia
             }
         }
 
-        /// <summary>
-        /// To call when the answer is right
-        /// </summary>
-        /// <returns></returns>
+        
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
@@ -187,7 +158,6 @@ namespace Trivia
 
             _currentPlayer++;
             if (_currentPlayer == _players.Count) _currentPlayer = 0;
-            //Must alwys return false 
             return true;
         }
 
@@ -216,7 +186,6 @@ namespace Trivia
                 Console.WriteLine(_Q5.First());
                 _Q5.RemoveFirst();
             }
-            //Shuf();
         }
 
         private string CurrentCategory()
