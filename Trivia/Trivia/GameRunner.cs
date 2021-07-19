@@ -4,7 +4,7 @@ namespace Trivia
 {
     public class GameRunner
     {
-        private static bool _notAWinner;
+        private static bool _isAWinner;
 
         public static void Main(string[] args)
         {
@@ -22,13 +22,13 @@ namespace Trivia
 
                 if (rand.Next(9) == 7)
                 {
-                    _notAWinner = aGame.WasCorrectlyAnswered();
+                    _isAWinner = aGame.WasCorrectlyAnswered();
                 }
                 else
                 {
-                    _notAWinner = aGame.WrongAnswer();
+                    _isAWinner = aGame.WrongAnswer();
                 }
-            } while (_notAWinner);
+            } while (!_isAWinner);
         }
     }
 }
