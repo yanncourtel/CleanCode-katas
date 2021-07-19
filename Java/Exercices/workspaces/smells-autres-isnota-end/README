@@ -1,0 +1,18 @@
+-->Bcp de smells deja vus sont presents comme ecran de fumee pour que l'exercice ne soit pas trop facile: 
+    -get/set
+    -doc alibi
+    -arraylist obsession
+-->Le probleme soulevé specifiquement par cet exo est l'emploi a mauvais escient de l'héritage 
+   alors qu'il n'y a pas de relation is-a entre Country/City et CodeLabal
+Quand on dit à voix haute "Un Country est un CodeLabel" on se rend tout de suite compte du problème
+    
+2. Refactor
+Le fix est de remplacer l'héritage par une délégation
+
+3. Smells restants?
+-->N'y a-t-il vraiment qu'un seul type de code pour country/city/airport?
+   On aurait peut-etre interet a verifier les formats specifiques de chacun à la construction. 
+-->Cet objet CodeLabel a-t-il vraiment un sens? Pourquoi lier ces deux champs 
+   Il vaudrait probablement mieux introduire CityId/CountryId/AirportId d'une part
+     et Label d'autre part (par ex. sur Label on pourrait n'autoriser que les caracteres isLetter?)
+-->Il faudrait en parler aux experts metier!   

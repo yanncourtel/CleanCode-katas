@@ -1,0 +1,12 @@
+1. Code review
+
+2. Refactor
+
+3. Smells restants?
+-->C'est quoi un country code, un airport code?
+      
+    -Les aeroports utilisent un code IATA
+    -->Ca serait mieux un VO IataCode
+    
+    -Country Codes - ISO 3166
+    -->Alpha-2 code

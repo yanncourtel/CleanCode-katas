@@ -1,0 +1,34 @@
+1. Commencer par une code review de ReservationService; remarques attendues:
+
+-on risque fort d'inverser heureDebut et heureFin
+-->l'invariant n'est pas etabli, 
+   ou alors il faut le verifier dans chaque utilisateur de la notion implicite de creneau horaire
+-mm pb si on passe des heures <0 ou >23
+
+-on se trimballe des longues de parametres
+
+-la logique de chevauchement serait dupliquee si on en avait besoin ailleurs
+
+-le code n'exprime pas d'intention mais une mecanique
+
+2. Demander de refactorer
+-->Le refactor attendu est l'introduction d'un value object CreneauHoraire 
+
+3. Faire constater que tous les smells vus en dans la code review ont disparu
+
+4. Demander quels tests on pourrait rajouter sans se casser la tete et quel serait leur interet
+-->Reponse attendue on peut ajouter CreneauHoraireTest, qui est un test unitaire bcp plus simple que ReservationServiceTest qui est desormais un test d'integration
+ (pas besoin de mocks ni rien). Les 2 sont complementaires. 
+
+5. Ouvre la porte a un "breakthrough" comme dit Evans:
+Maintenant qu'on a CreneauHoraire, on peut se demander si on devrait vraiment y inclure le jour.
+-->Une possibilité proposée par l'Analysis Pattern de Fowler "Planning" est de:
+     -séparer la réservation en "General Resource Allocation" et "Specific Resource Allocation"
+     -Le "General Resource Allocation" demande une SpecificationSalle, et une PlageHoraire
+     -Le "Specific Resource Allocation" demande une Salle, et une CreneauHoraire
+     
+6. La logique de reservation ne regarde pas si la reservation demandee et les resa existantes sont le meme jour
+Si qqn le fait remarquer avant qu'on ait présenté le refactor: 
+    -dire qu'on verra apres avoir montré la solution. De toute alourdir ReservationService avec cette logique 
+     ne fait que renforcer l'argument comme quoi il faut la centraliser dans un VO
+    -quand on presente le refactor solution, faire remarquer que dans end le fix est centralisé dans CreneauHoraire

@@ -1,0 +1,13 @@
+1. Faire une code review de MonitoredClass
+-->reponse attendue: la classe devrait etre immutable, mais ne l'est pas.
+
+__PEUT ETRE QUE CA SERAIT MIEUX DE MONTRER LE PROJ D'INSTRUMENTION ET DE MONTRER LE BUG?__
+__mais pe que ca serait trop long et compliqué?__
+
+2. Montrer les tests qui ne passent pas
+
+3. Demander de les faire passer en rendant MonitoredClass immutable
+
+4. Conclure: 
+    -l'immutabilité n'est pas triviale à assurer
+    -ne pas l'assurer entraine des bugs bizarres et des pbs de thread safety

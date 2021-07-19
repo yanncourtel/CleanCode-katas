@@ -1,0 +1,13 @@
+1. Faire une code review sommaire de SuperDashboard
+ (c'est normal si l'implémentation des méthodes est absentes)
+ Le code est-il maintenant satisfaisant 
+ 
+ ->La question est un peu piège, car le code est tellement moins long qu'on est visuellement soulagé
+ Pourtant c'est tjrs pas bon, car la classe ne respecte pas SRP, il y a un mélange de responsabilité:
+    -gestion du focus (préoccupation IHM)
+    -gestion de la version l'appli
+-->La taille ne se mesure pas seulement en nb de lignes, mais aussi de responsabilités
+   SRP: "Classes should have one responsibility—one reason to change."    
+  
+2. Proposez un refactor
+ -->La solution est évidemment de séparer les préoccupations dans des composants bien nommés

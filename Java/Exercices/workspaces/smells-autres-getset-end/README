@@ -1,0 +1,10 @@
+1. Code review
+
+2. Supprimer les setters
+
+3. Diminuer la mutabilite au max (getters: copie defensive ou wrapper unmodifiable)
+
+3. Supprimer les getters, remplacer par un comportement colocalisé avec l'état
+
+
+-->L'état est maintenant encapsulé, notre entité a acquis un comportement et n'est plus un simple struct

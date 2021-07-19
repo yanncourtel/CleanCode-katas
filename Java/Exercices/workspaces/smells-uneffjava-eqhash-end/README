@@ -1,0 +1,8 @@
+Code review Flight
+
+Pqoi ca n'utilise pas directement Set.contains?
+-->parce que le contrat eq/hash n'a pas été respecté
+    -->du coup le dev s'est dit "java est buggé"
+        -->du coup il a utilisé une itération a la place
+
+En plus ici le critère d'agalité est évident!
