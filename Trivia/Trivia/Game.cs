@@ -7,19 +7,19 @@ namespace Trivia
 
     public class Game
     {
-        private const int FIVE = 6;
+        private const int MaxPlayersNumber = 6;
 
         private readonly List<string> _players = new List<string>();
 
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
+        private readonly int[] _places = new int[MaxPlayersNumber];
+        private readonly int[] _purses = new int[MaxPlayersNumber];
 
-        private readonly bool[] _inPenaltyBox = new bool[FIVE];
+        private readonly bool[] _inPenaltyBox = new bool[MaxPlayersNumber];
 
-        private readonly LinkedList<string> _Q1 = new LinkedList<string>();
-        private readonly LinkedList<string> Q2 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q3 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q5 = new LinkedList<string>();
+        private readonly LinkedList<string> _questionsType1 = new LinkedList<string>();
+        private readonly LinkedList<string> _questionsType2 = new LinkedList<string>();
+        private readonly LinkedList<string> _questionsType3 = new LinkedList<string>();
+        private readonly LinkedList<string> _questionsType4 = new LinkedList<string>();
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
@@ -30,10 +30,10 @@ namespace Trivia
         {
             for (var i = 0; i < 50; i++)
             {
-                _Q1.AddLast("Pop Question " + i);
-                Q2.AddLast(("Science Question " + i));
-                _Q3.AddLast(("Sports Question " + i));
-                _Q5.AddLast(CreateRockQuestion(i));
+                _questionsType1.AddLast("Pop Question " + i);
+                _questionsType2.AddLast(("Science Question " + i));
+                _questionsType3.AddLast(("Sports Question " + i));
+                _questionsType4.AddLast(CreateRockQuestion(i));
             }
         }
 
@@ -120,15 +120,13 @@ namespace Trivia
                                       + " Gold Coins.");
 
                     var winner = !(_purses[_currentPlayer] == 6);
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
+                   NextPlayer();
 
                     return winner;
                 }
                 else
                 {
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
+                    NextPlayer();
                     return true;
                 }
             }
@@ -142,8 +140,7 @@ namespace Trivia
                                   + " Gold Coins.");
 
                 var winner = !(_purses[_currentPlayer] == 6);
-                _currentPlayer++;
-                if (_currentPlayer == _players.Count) _currentPlayer = 0;
+                NextPlayer();
 
                 return winner;
             }
@@ -156,35 +153,40 @@ namespace Trivia
             Console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
             _inPenaltyBox[_currentPlayer] = true;
 
+            NextPlayer();
+            return true;
+        }
+
+        private void NextPlayer()
+        {
             _currentPlayer++;
             if (_currentPlayer == _players.Count) _currentPlayer = 0;
-            return true;
         }
 
         private void AskQuestion()
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_Q1.First());
-                _Q1.RemoveFirst();
+                Console.WriteLine(_questionsType1.First());
+                _questionsType1.RemoveFirst();
             }
 
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(Q2.First());
-                Q2.RemoveFirst();
+                Console.WriteLine(_questionsType2.First());
+                _questionsType2.RemoveFirst();
             }
 
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_Q3.First());
-                _Q3.RemoveFirst();
+                Console.WriteLine(_questionsType3.First());
+                _questionsType3.RemoveFirst();
             }
 
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_Q5.First());
-                _Q5.RemoveFirst();
+                Console.WriteLine(_questionsType4.First());
+                _questionsType4.RemoveFirst();
             }
         }
 
