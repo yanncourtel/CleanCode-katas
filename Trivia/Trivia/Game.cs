@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Trivia
 {
-
     public class Game
     {
         private const int MaxPlayersNumber = 6;
         private const int MaxPlacesNumber = 12;
+        private const int ScoreToWin = 6;
         private readonly List<string> _players = new List<string>();
 
         private readonly int[] _places = new int[MaxPlayersNumber];
@@ -105,42 +105,22 @@ namespace Trivia
         /// <returns></returns>
         public bool WasCorrectlyAnswered()
         {
-            if (_inPenaltyBox[_currentPlayer])
+            if (_inPenaltyBox[_currentPlayer] && (!_isGettingOutOfPenaltyBox))
             {
-                if (_isGettingOutOfPenaltyBox)
-                {
-                    Console.WriteLine("Answer was correct!!!!");
-                    _purses[_currentPlayer]++;
-                    Console.WriteLine(_players[_currentPlayer]
-                                      + " now has "
-                                      + _purses[_currentPlayer]
-                                      + " Gold Coins.");
-
-                    var isAWinner = _purses[_currentPlayer] == 6;
-                    NextPlayer();
-
-                    return isAWinner;
-                }
-                else
-                {
-                    NextPlayer();
-                    return true;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Answer was corrent!!!!");
-                _purses[_currentPlayer]++;
-                Console.WriteLine(_players[_currentPlayer]
-                                  + " now has "
-                                  + _purses[_currentPlayer]
-                                  + " Gold Coins.");
-
-                var isAWinner = _purses[_currentPlayer] == 6;
                 NextPlayer();
-
-                return isAWinner;
+                return true;
             }
+
+            Console.WriteLine("Answer was correct!!!!");
+            _purses[_currentPlayer]++;
+            Console.WriteLine(_players[_currentPlayer]
+                              + " now has "
+                              + _purses[_currentPlayer]
+                              + " Gold Coins.");
+
+            NextPlayer();
+
+            return IsAWinner();
         }
 
         public bool WrongAnswer()
@@ -151,6 +131,11 @@ namespace Trivia
 
             NextPlayer();
             return false;
+        }
+
+        private bool IsAWinner()
+        {
+            return _purses[_currentPlayer] == ScoreToWin;
         }
 
         private void NextPlayer()
