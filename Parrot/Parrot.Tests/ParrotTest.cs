@@ -7,7 +7,7 @@ namespace Parrot.Tests
         [Fact]
         public void GetSpeedNorwegianBlueParrot_nailed()
         {
-            var parrot = new Parrot(ParrotTypeEnum.NORWEGIAN_BLUE, 0, 0, true);
+            var parrot = new NorwegianBlueParrot(true, 0);
             Assert.Equal(0.0, parrot.GetSpeed());
         }
 
@@ -51,6 +51,23 @@ namespace Parrot.Tests
         {
             var parrot = new Parrot(ParrotTypeEnum.EUROPEAN, 0, 0, false);
             Assert.Equal(12.0, parrot.GetSpeed());
+        }
+    }
+
+    public class NorwegianBlueParrot : BaseParrot
+    {
+        protected readonly bool _isNailed;
+        protected readonly double _voltage;
+
+        public NorwegianBlueParrot(bool isNailed, double voltage)
+        {
+            _isNailed = isNailed;
+            _voltage = voltage;
+        }
+
+        public override double GetSpeed()
+        {
+            return _isNailed ? 0 : GetBaseSpeed(_voltage);
         }
     }
 }
