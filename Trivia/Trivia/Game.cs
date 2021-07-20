@@ -18,6 +18,7 @@ namespace Trivia
 
         private int _currentPlayer;
         private bool _isInPenaltyBox;
+        private Player CurrentPlayer => _players[_currentPlayer];
 
         public bool IsPlayable() => (HowManyPlayers() >= 2);
 
@@ -59,23 +60,22 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(_players[_currentPlayer].Name + " is the current player");
+            Console.WriteLine(CurrentPlayer.Name + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
 
-            if (_players[_currentPlayer].IsInPenaltyBox)
+            if (CurrentPlayer.IsInPenaltyBox)
             {
                 if (roll % 2 == 0)
                 {
-                    Console.WriteLine(_players[_currentPlayer].Name + " is not getting out of the penalty box");
-                    _players[_currentPlayer].IsInPenaltyBox = true;
+                    Console.WriteLine(CurrentPlayer.Name + " is not getting out of the penalty box");
                 }
                 else
                 {
                     //User is getting out of penalty box
-                    _players[_currentPlayer].IsInPenaltyBox = false;
+                    CurrentPlayer.GetOutOfPenaltyBox();
                     //Write that user is getting out
-                    Console.WriteLine(_players[_currentPlayer].Name + " is getting out of the penalty box");
+                    Console.WriteLine(CurrentPlayer.Name + " is getting out of the penalty box");
                     MovePlayerAndAskQuestion(roll);
                 }
             }
@@ -85,13 +85,15 @@ namespace Trivia
             }
         }
 
+        
+
         private void MovePlayerAndAskQuestion(int roll)
         {
             MovePlayer(roll);
 
-            Console.WriteLine(_players[_currentPlayer].Name
+            Console.WriteLine(CurrentPlayer.Name
                               + "'s new location is "
-                              + _players[_currentPlayer].Place);
+                              + CurrentPlayer.Place);
             Console.WriteLine("The category is " + CurrentCategory());
             AskQuestion();
         }
@@ -102,17 +104,17 @@ namespace Trivia
         /// <returns></returns>
         public bool WasCorrectlyAnswered()
         {
-            if (_players[_currentPlayer].IsInPenaltyBox)
+            if (CurrentPlayer.IsInPenaltyBox)
             {
                 NextPlayer();
                 return true;
             }
 
             Console.WriteLine("Answer was correct!!!!");
-            _players[_currentPlayer].Purse++;
-            Console.WriteLine(_players[_currentPlayer].Name
+            CurrentPlayer.Purse++;
+            Console.WriteLine(CurrentPlayer.Name
                               + " now has "
-                              + _players[_currentPlayer].Purse
+                              + CurrentPlayer.Purse
                               + " Gold Coins.");
 
             NextPlayer();
@@ -123,8 +125,8 @@ namespace Trivia
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_players[_currentPlayer].Name + " was sent to the penalty box");
-            _players[_currentPlayer].IsInPenaltyBox = true;
+            Console.WriteLine(CurrentPlayer.Name + " was sent to the penalty box");
+            CurrentPlayer.GoToPenaltyBox();
 
             NextPlayer();
             return false;
@@ -132,7 +134,7 @@ namespace Trivia
 
         private bool IsAWinner()
         {
-            return _players[_currentPlayer].Purse == ScoreToWin;
+            return CurrentPlayer.Purse == ScoreToWin;
         }
 
         private void NextPlayer()
@@ -170,7 +172,7 @@ namespace Trivia
 
         private Category CurrentCategory()
         {
-            switch (_players[_currentPlayer].Place)
+            switch (CurrentPlayer.Place)
             {
                 case 0:
                 case 4:
@@ -191,10 +193,10 @@ namespace Trivia
 
         private void MovePlayer(int roll)
         {
-            _players[_currentPlayer].Place = _players[_currentPlayer].Place + roll;
-            if (_players[_currentPlayer].Place >= MaxPlacesNumber)
+            CurrentPlayer.Place = CurrentPlayer.Place + roll;
+            if (CurrentPlayer.Place >= MaxPlacesNumber)
             {
-                _players[_currentPlayer].Place = _players[_currentPlayer].Place - MaxPlacesNumber;
+                CurrentPlayer.Place = CurrentPlayer.Place - MaxPlacesNumber;
             }
         }
     }
