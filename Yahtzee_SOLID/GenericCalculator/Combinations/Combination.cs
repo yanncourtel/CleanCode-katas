@@ -1,13 +1,13 @@
-namespace GenericCalculator.Combination
+namespace GenericCalculator.Combinations
 {
     public enum Combination
     {
-        Ones,
-        Twos,
-        Threes,
-        Fours,
-        Fives,
-        Sixes,
+        Ones = 1,
+        Twos = 2,
+        Threes = 3,
+        Fours = 4,
+        Fives = 5,
+        Sixes = 6,
         Chance,
         LargeStraight,
         SmallStraight,

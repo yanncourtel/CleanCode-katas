@@ -3,7 +3,7 @@ using System;
 using FluentAssertions;
 
 using GenericCalculator;
-using GenericCalculator.Combination;
+using GenericCalculator.Combinations;
 using GenericCalculator.Roll;
 
 using Xunit;

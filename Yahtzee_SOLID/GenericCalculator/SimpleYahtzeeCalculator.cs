@@ -1,27 +1,34 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using GenericCalculator.Combinations;
 
 namespace GenericCalculator
 {
     public class SimpleYahtzeeCalculator : ICalculator
     {
+        private Dictionary<Combination,Func<int>> _combinations;
 
-
-        public int Calculate(Roll.Roll roll, Combination.Combination combination)
+        public SimpleYahtzeeCalculator(Dictionary<Combination, Func<int>> combinations)
         {
-            var dicesValues = roll.GetDicesValues();
+            _combinations = combinations;
+        }
 
-            return combination switch
-            {
-                Combination.Combination.Ones => new SimpleSumValueCombination(1).GetScore(roll),
-                Combination.Combination.Twos => dicesValues.Where(x => x == 2).Sum(),
-                Combination.Combination.Threes => dicesValues.Where(x => x == 3).Sum(),
-                Combination.Combination.Fours => dicesValues.Where(x => x == 4).Sum(),
-                Combination.Combination.Fives => dicesValues.Where(x => x == 5).Sum(),
-                Combination.Combination.Sixes => dicesValues.Where(x => x == 6).Sum(),
-                Combination.Combination.Yahtzee => new YahtzeeCombination().GetScore(roll),
-                _ => throw new InvalidOperationException()
-            };
+
+        public int Calculate(Roll.Roll roll, Combination combination)
+        {
+            // return combination switch
+            // {
+            //     Combination.Ones => new SimpleSumValueCombination((int)Combination.Ones).GetScore(roll),
+            //     Combination.Twos => new SimpleSumValueCombination((int)Combination.Twos).GetScore(roll),
+            //     Combination.Threes => new SimpleSumValueCombination((int)Combination.Threes).GetScore(roll),
+            //     Combination.Fours => new SimpleSumValueCombination((int)Combination.Fours).GetScore(roll),
+            //     Combination.Fives => new SimpleSumValueCombination((int)Combination.Fives).GetScore(roll),
+            //     Combination.Sixes => new SimpleSumValueCombination((int)Combination.Sixes).GetScore(roll),
+            //     Combination.Yahtzee => new YahtzeeCombination().GetScore(roll),
+            //     _ => throw new InvalidOperationException()
+            // };
+            return _combinations[combination].Invoke();
         }
 
  

@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
+using GenericCalculator.Combinations;
 
 namespace GenericCalculator
 {
     public class YahtzeeCalculator : ICalculator
     {
-        public int Calculate(Roll.Roll roll, Combination.Combination combination)
+        public int Calculate(Roll.Roll roll, Combination combination)
         {
             if (roll == null)
             {
@@ -16,19 +17,19 @@ namespace GenericCalculator
 
             return combination switch
             {
-                Combination.Combination.Ones => dicesValues.Where(x => x == 1).Sum(),
-                Combination.Combination.Twos => dicesValues.Where(x => x == 2).Sum(),
-                Combination.Combination.Threes => dicesValues.Where(x => x == 3).Sum(),
-                Combination.Combination.Fours => dicesValues.Where(x => x == 4).Sum(),
-                Combination.Combination.Fives => dicesValues.Where(x => x == 5).Sum(),
-                Combination.Combination.Sixes => dicesValues.Where(x => x == 6).Sum(),
-                Combination.Combination.Chance => dicesValues.Sum(),
-                Combination.Combination.LargeStraight => IsLargeStraight(dicesValues) ? 40 : 0,
-                Combination.Combination.SmallStraight => IsSmallStraight(dicesValues) ? 30 : 0,
-                Combination.Combination.Yahtzee => HasGivenOccurrences(dicesValues, 5) ? 50 : 0,
-                Combination.Combination.Square => HasGivenOccurrences(dicesValues, 4) ? dicesValues.Sum() : 0,
-                Combination.Combination.ThreeOfAKind => HasGivenOccurrences(dicesValues, 3) ? dicesValues.Sum() : 0,
-                Combination.Combination.FullHouse => IsFullHouse(dicesValues) ? 25 : 0,
+                Combination.Ones => dicesValues.Where(x => x == 1).Sum(),
+                Combination.Twos => dicesValues.Where(x => x == 2).Sum(),
+                Combination.Threes => dicesValues.Where(x => x == 3).Sum(),
+                Combination.Fours => dicesValues.Where(x => x == 4).Sum(),
+                Combination.Fives => dicesValues.Where(x => x == 5).Sum(),
+                Combination.Sixes => dicesValues.Where(x => x == 6).Sum(),
+                Combination.Chance => dicesValues.Sum(),
+                Combination.LargeStraight => IsLargeStraight(dicesValues) ? 40 : 0,
+                Combination.SmallStraight => IsSmallStraight(dicesValues) ? 30 : 0,
+                Combination.Yahtzee => HasGivenOccurrences(dicesValues, 5) ? 50 : 0,
+                Combination.Square => HasGivenOccurrences(dicesValues, 4) ? dicesValues.Sum() : 0,
+                Combination.ThreeOfAKind => HasGivenOccurrences(dicesValues, 3) ? dicesValues.Sum() : 0,
+                Combination.FullHouse => IsFullHouse(dicesValues) ? 25 : 0,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
