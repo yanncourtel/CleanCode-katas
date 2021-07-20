@@ -11,11 +11,6 @@ namespace Trivia
         private const int ScoreToWin = 6;
         private readonly List<Player> _players = new List<Player>();
 
-        private readonly int[] _places = new int[MaxPlayersNumber];
-        private readonly int[] _purses = new int[MaxPlayersNumber];
-
-        private readonly bool[] _inPenaltyBox = new bool[MaxPlayersNumber];
-
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
@@ -44,15 +39,13 @@ namespace Trivia
 
         public bool Add(string playerName)
         {
-            Player player = new Player();
-            player.Name = playerName;
-            player.Place = 0;
-            player.Purse = 0;
-            player.IsInPenaltyBox = false;
+            if (_players.Count >= MaxPlayersNumber)
+            {
+                throw new InvalidOperationException();
+            }
+
+            Player player = new Player(playerName,  0,  0, false);
             _players.Add(player);
-            _places[HowManyPlayers()] = 0;
-            _purses[HowManyPlayers()] = 0;
-            _inPenaltyBox[HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + _players.Count);
@@ -70,19 +63,19 @@ namespace Trivia
             Console.WriteLine("They have rolled a " + roll);
 
 
-            if (_inPenaltyBox[_currentPlayer])
+            if (_players[_currentPlayer].IsInPenaltyBox)
             {
                 if (roll % 2 == 0)
                 {
                     Console.WriteLine(_players[_currentPlayer].Name + " is not getting out of the penalty box");
-                    _inPenaltyBox[_currentPlayer] = true;
+                    _players[_currentPlayer].IsInPenaltyBox = true;
                 }
                 else
                 {
                     //User is getting out of penalty box
-                    _inPenaltyBox[_currentPlayer] = false;
+                    _players[_currentPlayer].IsInPenaltyBox = false;
                     //Write that user is getting out
-                    Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
+                    Console.WriteLine(_players[_currentPlayer].Name + " is getting out of the penalty box");
                     MovePlayerAndAskQuestion(roll);
                 }
             }
@@ -96,9 +89,9 @@ namespace Trivia
         {
             MovePlayer(roll);
 
-            Console.WriteLine(_players[_currentPlayer]
+            Console.WriteLine(_players[_currentPlayer].Name
                               + "'s new location is "
-                              + _places[_currentPlayer]);
+                              + _players[_currentPlayer].Place);
             Console.WriteLine("The category is " + CurrentCategory());
             AskQuestion();
         }
@@ -109,17 +102,17 @@ namespace Trivia
         /// <returns></returns>
         public bool WasCorrectlyAnswered()
         {
-            if (_inPenaltyBox[_currentPlayer])
+            if (_players[_currentPlayer].IsInPenaltyBox)
             {
                 NextPlayer();
                 return true;
             }
 
             Console.WriteLine("Answer was correct!!!!");
-            _purses[_currentPlayer]++;
-            Console.WriteLine(_players[_currentPlayer]
+            _players[_currentPlayer].Purse++;
+            Console.WriteLine(_players[_currentPlayer].Name
                               + " now has "
-                              + _purses[_currentPlayer]
+                              + _players[_currentPlayer].Purse
                               + " Gold Coins.");
 
             NextPlayer();
@@ -130,8 +123,8 @@ namespace Trivia
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
-            _inPenaltyBox[_currentPlayer] = true;
+            Console.WriteLine(_players[_currentPlayer].Name + " was sent to the penalty box");
+            _players[_currentPlayer].IsInPenaltyBox = true;
 
             NextPlayer();
             return false;
@@ -139,7 +132,7 @@ namespace Trivia
 
         private bool IsAWinner()
         {
-            return _purses[_currentPlayer] == ScoreToWin;
+            return _players[_currentPlayer].Purse == ScoreToWin;
         }
 
         private void NextPlayer()
@@ -177,7 +170,7 @@ namespace Trivia
 
         private Category CurrentCategory()
         {
-            switch (_places[_currentPlayer])
+            switch (_players[_currentPlayer].Place)
             {
                 case 0:
                 case 4:
@@ -198,10 +191,10 @@ namespace Trivia
 
         private void MovePlayer(int roll)
         {
-            _places[_currentPlayer] = _places[_currentPlayer] + roll;
-            if (_places[_currentPlayer] >= MaxPlacesNumber)
+            _players[_currentPlayer].Place = _players[_currentPlayer].Place + roll;
+            if (_players[_currentPlayer].Place >= MaxPlacesNumber)
             {
-                _places[_currentPlayer] = _places[_currentPlayer] - MaxPlacesNumber;
+                _players[_currentPlayer].Place = _players[_currentPlayer].Place - MaxPlacesNumber;
             }
         }
     }
