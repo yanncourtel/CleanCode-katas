@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GenericCalculator
 {
-    public class Calculator
+    public class YahtzeeCalculator : ICalculator
     {
         public int Calculate(Roll.Roll roll, Combination.Combination combination)
         {

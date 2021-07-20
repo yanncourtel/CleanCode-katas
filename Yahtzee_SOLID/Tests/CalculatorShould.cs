@@ -1,16 +1,18 @@
 using System;
 
 using FluentAssertions;
+
 using GenericCalculator;
 using GenericCalculator.Combination;
 using GenericCalculator.Roll;
+
 using Xunit;
 
 namespace Tests
 {
     public class CalculatorShould
     {
-        private readonly Calculator calculator = new Calculator();
+        private readonly ICalculator yahtzeeCalculator = new YahtzeeCalculator();
 
         [Fact]
         public void Calculate_With_Invalid_Combination_Throws_Exception()
@@ -20,7 +22,7 @@ namespace Tests
             var roll = new Roll(dices);
 
             // act
-            Action result = () => calculator.Calculate(roll, (Combination)100);
+            Action result = () => yahtzeeCalculator.Calculate(roll, (Combination)100);
 
             // assert
             result.Should().Throw<ArgumentOutOfRangeException>();
@@ -30,7 +32,7 @@ namespace Tests
         public void Calculate_With_Null_Roll_Throws_Exception()
         {
             // act
-            Action result = () => calculator.Calculate(null, Combination.Ones);
+            Action result = () => yahtzeeCalculator.Calculate(null, Combination.Ones);
 
             // assert
             result.Should().Throw<ArgumentNullException>();
@@ -78,10 +80,26 @@ namespace Tests
             var roll = new Roll(dices);
 
             // act
-            var result = calculator.Calculate(roll, combination);
+            var result = yahtzeeCalculator.Calculate(roll, combination);
 
             // assert
             result.Should().Be(expectedScore);
+        }
+
+        [Fact]
+        public void Simple_Yahtzee_Calculator_Should_Have_Only_Upper_Combination()
+        {
+            // arrange 
+            var dices = new Dice[]
+            {new Dice(1), new Dice(1), new Dice(1), new Dice(1), new Dice(1)};
+            var roll = new Roll(dices);
+
+            // act
+            ICalculator simpleCalculator = new SimpleYahtzeeCalculator();
+            Action action = () => simpleCalculator.Calculate(roll, Combination.FullHouse);
+
+            // assert
+            action.Should().Throw<InvalidOperationException>();
         }
     }
 }
