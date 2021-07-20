@@ -70,12 +70,12 @@ namespace Trivia
                 if (roll % 2 == 0)
                 {
                     Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
-                    _isInPenaltyBox = true;
+                    _inPenaltyBox[_currentPlayer] = true;
                 }
                 else
                 {
                     //User is getting out of penalty box
-                    _isInPenaltyBox = false;
+                    _inPenaltyBox[_currentPlayer] = false;
                     //Write that user is getting out
                     Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
                     MovePlayerAndAskQuestion(roll);
@@ -104,7 +104,7 @@ namespace Trivia
         /// <returns></returns>
         public bool WasCorrectlyAnswered()
         {
-            if (_inPenaltyBox[_currentPlayer] && _isInPenaltyBox)
+            if (_inPenaltyBox[_currentPlayer])
             {
                 NextPlayer();
                 return true;
@@ -145,49 +145,49 @@ namespace Trivia
 
         private void AskQuestion()
         {
-            if (CurrentCategory() == "Pop")
+            if (CurrentCategory() == Category.Pop)
             {
                 Console.WriteLine(_popQuestions.First());
                 _popQuestions.RemoveFirst();
             }
 
-            if (CurrentCategory() == "Science")
+            if (CurrentCategory() == Category.Science)
             {
                 Console.WriteLine(_scienceQuestions.First());
                 _scienceQuestions.RemoveFirst();
             }
 
-            if (CurrentCategory() == "Sports")
+            if (CurrentCategory() == Category.Sports)
             {
                 Console.WriteLine(_sportsQuestions.First());
                 _sportsQuestions.RemoveFirst();
             }
 
-            if (CurrentCategory() == "Rock")
+            if (CurrentCategory() == Category.Rock)
             {
                 Console.WriteLine(_rockQuestions.First());
                 _rockQuestions.RemoveFirst();
             }
         }
 
-        private string CurrentCategory()
+        private Category CurrentCategory()
         {
             switch (_places[_currentPlayer])
             {
                 case 0:
                 case 4:
                 case 8:
-                    return "Pop";
+                    return Category.Pop;
                 case 1:
                 case 5:
                 case 9:
-                    return "Science";
+                    return Category.Science;
                 case 2:
                 case 6:
                 case 10:
-                    return "Sports";
+                    return Category.Sports;
                 default:
-                    return "Rock";
+                    return Category.Rock;
             }
         }
 
@@ -199,5 +199,13 @@ namespace Trivia
                 _places[_currentPlayer] = _places[_currentPlayer] - MaxPlacesNumber;
             }
         }
+    }
+
+    internal enum Category
+    {
+        Pop,
+        Science,
+        Sports,
+        Rock
     }
 }
