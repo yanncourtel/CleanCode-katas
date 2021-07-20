@@ -12,9 +12,9 @@ namespace Trivia
             IsInPenaltyBox = isInPenaltyBox;
         }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public int Place { get; set; }
-        public int Purse { get; set; }
+        public int Purse { get; private set; }
         public bool IsInPenaltyBox { get; private set; }
 
         public void GoToPenaltyBox()
@@ -25,6 +25,11 @@ namespace Trivia
         public void GetOutOfPenaltyBox()
         {
             IsInPenaltyBox = false;
+        }
+
+        public void AddGoldCoin()
+        {
+            Purse++;
         }
     }
 }

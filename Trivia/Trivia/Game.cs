@@ -17,7 +17,6 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayer;
-        private bool _isInPenaltyBox;
         private Player CurrentPlayer => _players[_currentPlayer];
 
         public bool IsPlayable() => (HowManyPlayers() >= 2);
@@ -111,7 +110,7 @@ namespace Trivia
             }
 
             Console.WriteLine("Answer was correct!!!!");
-            CurrentPlayer.Purse++;
+            CurrentPlayer.AddGoldCoin();
             Console.WriteLine(CurrentPlayer.Name
                               + " now has "
                               + CurrentPlayer.Purse
