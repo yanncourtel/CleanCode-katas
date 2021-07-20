@@ -9,7 +9,7 @@ namespace Trivia
         private const int MaxPlayersNumber = 6;
         private const int MaxPlacesNumber = 12;
         private const int ScoreToWin = 6;
-        private readonly List<string> _players = new List<string>();
+        private readonly List<Player> _players = new List<Player>();
 
         private readonly int[] _places = new int[MaxPlayersNumber];
         private readonly int[] _purses = new int[MaxPlayersNumber];
@@ -44,7 +44,12 @@ namespace Trivia
 
         public bool Add(string playerName)
         {
-            _players.Add(playerName);
+            Player player = new Player();
+            player.Name = playerName;
+            player.Place = 0;
+            player.Purse = 0;
+            player.IsInPenaltyBox = false;
+            _players.Add(player);
             _places[HowManyPlayers()] = 0;
             _purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
@@ -61,7 +66,7 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(_players[_currentPlayer] + " is the current player");
+            Console.WriteLine(_players[_currentPlayer].Name + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
 
@@ -69,7 +74,7 @@ namespace Trivia
             {
                 if (roll % 2 == 0)
                 {
-                    Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
+                    Console.WriteLine(_players[_currentPlayer].Name + " is not getting out of the penalty box");
                     _inPenaltyBox[_currentPlayer] = true;
                 }
                 else
@@ -199,13 +204,5 @@ namespace Trivia
                 _places[_currentPlayer] = _places[_currentPlayer] - MaxPlacesNumber;
             }
         }
-    }
-
-    internal enum Category
-    {
-        Pop,
-        Science,
-        Sports,
-        Rock
     }
 }
