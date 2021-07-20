@@ -116,9 +116,9 @@ namespace Tests
             int dice5, Combination combination, int expectedScore)
         {
             // arrange 
-            ICombination _simpleSumValueCombination = new SimpleSumValueCombination();
-            ICombination _yahtzeeCombination = new YahtzeeCombination();
-            ICalculator simpleCalculator = new SimpleYahtzeeCalculator(_simpleSumValueCombination, _yahtzeeCombination);
+            //ICombination _simpleSumValueCombination = new SimpleSumValueCombination();
+            //ICombination _yahtzeeCombination = new YahtzeeCombination();
+            ICalculator simpleCalculator = new SimpleYahtzeeCalculator();
             var dices = new Dice[]
             {new Dice(dice1), new Dice(dice2), new Dice(dice3), new Dice(dice4), new Dice(dice5)};
             var roll = new Roll(dices);
