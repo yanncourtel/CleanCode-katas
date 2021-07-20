@@ -1,4 +1,4 @@
-namespace SOLID.DependencyInversion.infrastructure
+namespace SOLID.DependencyInversion.domain
 {
     public interface IAvailabilityDao {
     
