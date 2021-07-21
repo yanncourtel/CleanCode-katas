@@ -1,4 +1,4 @@
-namespace GenericCalculator.Roll
+namespace Calculator.Roll
 {
     public class Dice
     {

@@ -1,4 +1,4 @@
-namespace GenericCalculator.Combinations
+namespace Calculator
 {
     public enum Combination
     {

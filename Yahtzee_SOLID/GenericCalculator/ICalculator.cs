@@ -1,6 +1,4 @@
-using GenericCalculator.Combinations;
-
-namespace GenericCalculator
+namespace Calculator
 {
     public interface ICalculator
     {

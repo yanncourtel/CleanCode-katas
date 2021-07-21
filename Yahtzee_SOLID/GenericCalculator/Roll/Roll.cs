@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace GenericCalculator.Roll
+namespace Calculator.Roll
 {
     public class Roll
     {

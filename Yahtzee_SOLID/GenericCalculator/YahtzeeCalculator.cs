@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using GenericCalculator.Combinations;
 
-namespace GenericCalculator
+namespace Calculator
 {
     public class YahtzeeCalculator : ICalculator
     {

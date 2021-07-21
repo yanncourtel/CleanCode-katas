@@ -1,6 +1,6 @@
 using System;
 
-namespace GenericCalculator.Roll
+namespace Calculator.Roll
 {
     public class InvalidRollException : Exception
     {

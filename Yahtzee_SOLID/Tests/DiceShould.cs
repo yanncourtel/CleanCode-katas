@@ -1,6 +1,6 @@
 using System;
+using Calculator.Roll;
 using FluentAssertions;
-using GenericCalculator.Roll;
 using Xunit;
 
 namespace Tests

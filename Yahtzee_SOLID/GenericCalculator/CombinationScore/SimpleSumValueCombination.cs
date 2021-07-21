@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace GenericCalculator
+namespace Calculator.CombinationScore
 {
     public class SimpleSumValueCombination : ICombination
     {
