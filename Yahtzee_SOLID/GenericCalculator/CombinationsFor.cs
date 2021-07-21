@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Calculator.CombinationScore
+using Calculator.CombinationScore;
+
+namespace Calculator
 {
     public static class CombinationsFor
     {

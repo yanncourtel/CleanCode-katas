@@ -1,6 +1,9 @@
 ﻿using System;
+
 using Calculator.Roll;
+
 using FluentAssertions;
+
 using Xunit;
 
 namespace Tests
